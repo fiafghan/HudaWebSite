@@ -36,8 +36,11 @@ export default function Sidebar() {
   const isDark = theme === 'dark'
   return (
     <aside className={'hidden md:block fixed top-16 left-0 h-[calc(100vh-64px)] w-72 overflow-y-auto'}>
-      <div className={isDark ? 'h-full bg-slate-800/90 backdrop-blur text-white border-r border-white/5 shadow-xl shadow-black/20' : 'h-full bg-white text-slate-900 border-r border-slate-900/10 shadow-xl shadow-black/5'}>
-        <div className="p-4">
+      <div className={isDark ? 'relative overflow-hidden h-full text-white border-r shadow-2xl shadow-black/40 backdrop-blur-2xl backdrop-saturate-150 backdrop-brightness-110 bg-slate-900/20 border-white/20 ring-1 ring-white/10' : 'h-full bg-white text-slate-900 border-r border-slate-900/10 shadow-xl shadow-black/5'}>
+        {isDark && (
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-transparent" />
+        )}
+        <div className="relative z-10 p-4">
           <nav className="space-y-1 text-sm">
             <a href="/#overview" className={isDark ? 'flex items-center gap-3 px-3 py-2 rounded-md text-sm text-white/90 hover:text-white hover:bg-slate-600/40 ring-1 ring-transparent hover:ring-white/10 transition-all duration-150' : 'flex items-center gap-3 px-3 py-2 rounded-md text-sm text-slate-700 hover:text-slate-900 hover:bg-slate-900/5 ring-1 ring-transparent hover:ring-slate-900/10 transition-all duration-150'}>
               <span className="inline-grid h-6 w-6 place-items-center rounded-md bg-gradient-to-br from-slate-700 to-slate-500">
