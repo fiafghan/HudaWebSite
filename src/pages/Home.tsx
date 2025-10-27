@@ -98,7 +98,6 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <p className="text-xs text-gray-600 mt-2">Add your images to <code>/public/images/</code> and update the <code>slides</code> array at the top of this page.</p>
           </section>
 
           <section id="installation" className="mb-8">

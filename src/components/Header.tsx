@@ -53,7 +53,7 @@ export default function Header() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-40">
-      <div className={isDark ? 'backdrop-blur-xl bg-slate-800/90 text-white ring-1 ring-white/5' : 'backdrop-blur-xl bg-white/90 text-slate-900 ring-1 ring-slate-900/10'}>
+      <div className={isDark ? 'backdrop-blur-2xl backdrop-saturate-150 backdrop-brightness-110 bg-slate-900/20 text-white ring-1 ring-white/10' : 'backdrop-blur-xl bg-white/90 text-slate-900 ring-1 ring-slate-900/10'}>
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between py-3">
             {/* Brand */}
