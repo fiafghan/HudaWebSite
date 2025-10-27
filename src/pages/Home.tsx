@@ -7,6 +7,14 @@ import CodeEnhancer from '../components/CodeEnhancer'
  
 
 export default function Home() {
+  const slides = [
+    "/images/1.png",
+    "/images/2.png",
+    "/images/3.jpeg",
+  ]
+  const [slideIndex, setSlideIndex] = React.useState(0)
+  const next = () => setSlideIndex((i) => (i + 1) % slides.length)
+  const prev = () => setSlideIndex((i) => (i - 1 + slides.length) % slides.length)
   return (
     <div className="min-h-screen pt-16">
       <Header />
@@ -26,9 +34,51 @@ export default function Home() {
               <h2 className="text-xl font-semibold mb-2">Overview</h2>
               <p className="text-gray-700">Humanitarian data utilities — simple, fast, consistent.</p>
               <ul className="list-disc pl-6 text-gray-700 mt-3 space-y-1">
-                <li><span className="font-semibold">Overview</span></li>
               </ul>
+              <div className="rounded-md border border-gray-200 bg-gray-50 p-4 mt-4 text-sm text-gray-800">
+                This project is an independent, community-built software library and is not affiliated with, endorsed by, or supported by any humanitarian organization. It is provided to help humanitarian data analysts work more efficiently and accurately.
+              </div>
             </div>
+          </section>
+
+          <section id="gallery" className="mb-10">
+            <h2 className="text-xl font-semibold mb-3">Humanitarian Data Analytics — Gallery</h2>
+            <div className="relative w-full overflow-hidden rounded-lg border border-gray-200 bg-white">
+              <div className="aspect-[16/9] w-full bg-gray-100 grid place-items-center">
+                <img
+                  src={slides[slideIndex]}
+                  alt={`slide-${slideIndex + 1}`}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={prev}
+                className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 text-white px-3 py-2 text-sm hover:bg-black/70 active:scale-95"
+                aria-label="Previous slide"
+              >
+                Prev
+              </button>
+              <button
+                type="button"
+                onClick={next}
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-black/60 text-white px-3 py-2 text-sm hover:bg-black/70 active:scale-95"
+                aria-label="Next slide"
+              >
+                Next
+              </button>
+              <div className="absolute inset-x-0 bottom-2 flex items-center justify-center gap-2">
+                {slides.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSlideIndex(i)}
+                    className={`h-2.5 w-2.5 rounded-full transition ${i === slideIndex ? 'bg-white ring-2 ring-white ring-offset-2 ring-offset-black/30' : 'bg-white/60 hover:bg-white'}`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+            <p className="text-xs text-gray-600 mt-2">Add your images to <code>/public/images/</code> and update the <code>slides</code> array at the top of this page.</p>
           </section>
 
           <section id="installation" className="mb-8">
