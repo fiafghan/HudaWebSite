@@ -12,9 +12,22 @@ export default function Home() {
     "/images/2.png",
     "/images/3.jpeg",
   ]
+
+  // add slogans
+  const slogans = [
+    "Faster, reliable pipelines for crisis data.",
+    "From messy files to decision-ready insights.",
+    "Standards-first analytics for humanitarian needs.",
+  ]
   const [slideIndex, setSlideIndex] = React.useState(0)
   const next = () => setSlideIndex((i) => (i + 1) % slides.length)
   const prev = () => setSlideIndex((i) => (i - 1 + slides.length) % slides.length)
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      setSlideIndex((i) => (i + 1) % slides.length)
+    }, 2000)
+    return () => clearInterval(id)
+  }, [slides.length])
   return (
     <div className="min-h-screen pt-16">
       <Header />
@@ -35,21 +48,28 @@ export default function Home() {
               <p className="text-gray-700">Humanitarian data utilities — simple, fast, consistent.</p>
               <ul className="list-disc pl-6 text-gray-700 mt-3 space-y-1">
               </ul>
-              <div className="rounded-md border border-gray-200 bg-gray-50 p-4 mt-4 text-sm text-gray-800">
-                This project is an independent, community-built software library and is not affiliated with, endorsed by, or supported by any humanitarian organization. It is provided to help humanitarian data analysts work more efficiently and accurately.
+              <div className="rounded-lg border border-gray-200 bg-gray-50 text-gray-800 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 p-5 mt-4 shadow-sm transition hover:shadow-md hover:ring-1 ring-gray-300 dark:ring-gray-600">
+                <p className="text-[15px] leading-relaxed">
+                  <span className="font-semibold">Note:</span> This project is an independent, community-built software library and is not affiliated with, endorsed by, or supported by any humanitarian organization. It is provided to help humanitarian data analysts work more efficiently and accurately.
+                </p>
               </div>
             </div>
           </section>
 
-          <section id="gallery" className="mb-10">
+          <section id="gallery" className="mb-8">
             <h2 className="text-xl font-semibold mb-3">Humanitarian Data Analytics — Gallery</h2>
             <div className="relative w-full overflow-hidden rounded-lg border border-gray-200 bg-white">
-              <div className="aspect-[16/9] w-full bg-gray-100 grid place-items-center">
+              <div className="w-full bg-gray-100 grid place-items-center h-80 sm:h-96 md:h-[27rem] lg:h-[30rem]">
                 <img
                   src={slides[slideIndex]}
                   alt={`slide-${slideIndex + 1}`}
                   className="h-full w-full object-cover"
                 />
+              </div>
+              <div className="absolute inset-x-0 bottom-0 text-white" style={{height: '20%'}}>
+                <div className="h-full w-full bg-slate-900/70 px-4 sm:px-6 py-2 flex items-center">
+                  <p className="text-sm sm:text-base font-medium line-clamp-2">{slogans[slideIndex]}</p>
+                </div>
               </div>
               <button
                 type="button"
