@@ -1,5 +1,5 @@
 import React from 'react'
-import { Home, Info, Mail, FolderOpen, Brush, Workflow, ShieldCheck, Map, LineChart, Share2, BarChart3, Bot, FileSearch, Activity } from 'lucide-react'
+import { Home, Info, Mail, FolderOpen, Brush, Workflow, ShieldCheck, Map, LineChart, Share2, BarChart3, Bot, FileSearch, Activity, Brain } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import { getTheme, onThemeChange, type Theme } from '../theme'
 
@@ -64,6 +64,8 @@ export default function Sidebar() {
             <NavItem to="/docs/ml4humanitarian" label={'ML for Humanitarian Data'} icon={<Bot className="w-3.5 h-3.5" />} isActive={is('/docs/ml4humanitarian')} />
             <NavItem to="/docs/document-processing" label={'Document Processing'} icon={<FileSearch className="w-3.5 h-3.5" />} isActive={is('/docs/document-processing')} />
             <NavItem to="/docs/humanitarian-metrics" label={'Humanitarian Metrics'} icon={<Activity className="w-3.5 h-3.5" />} isActive={is('/docs/humanitarian-metrics')} />
+            <div className={isDark ? 'pt-2 pb-1 text-[10px] uppercase tracking-wider text-white/70' : 'pt-2 pb-1 text-[10px] uppercase tracking-wider text-slate-500'}>AI for Humanity</div>
+            <NavItem to="/docs/aidmind" label={'AidMind'} icon={<Brain className="w-3.5 h-3.5" />} isActive={is('/docs/aidmind')} />
           </nav>
         </div>
       </div>

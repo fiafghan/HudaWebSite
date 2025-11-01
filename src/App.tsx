@@ -15,6 +15,7 @@ import Visualization from './pages/docs/Visualization'
 import ML4Humanitarian from './pages/docs/ML4Humanitarian'
 import DocumentProcessing from './pages/docs/DocumentProcessing'
 import HumanitarianMetrics from './pages/docs/HumanitarianMetrics'
+import AidMind from './pages/docs/AidMind'
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
       <Route path="/docs/ml4humanitarian" element={<ML4Humanitarian />} />
       <Route path="/docs/document-processing" element={<DocumentProcessing />} />
       <Route path="/docs/humanitarian-metrics" element={<HumanitarianMetrics />} />
+      <Route path="/docs/aidmind" element={<AidMind />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
