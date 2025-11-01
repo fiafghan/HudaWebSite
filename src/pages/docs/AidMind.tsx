@@ -3,16 +3,16 @@ import DocsLayout from '../../layouts/DocsLayout'
 
 export default function AidMind() {
   return (
-    <DocsLayout title="AidMind: Unsupervised ML for Humanitarian Needs Assessment">
+    <DocsLayout title="AidMind: Unsupervised ML for Humanitarian Needs Assessment" titleClassName="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-orange-500 to-emerald-500">
       <div className="prose prose-slate max-w-none dark:prose-invert">
         {/* Header */}
-        <p className="text-lg text-gray-700 dark:text-gray-300">
+        <p className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-pink-500">
           <strong>Unsupervised machine learning for humanitarian needs assessment at ANY geographic level</strong>
         </p>
-        <p className="text-gray-700 dark:text-gray-300">
+        <p className="text-base text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500">
           AidMind is a production-ready Python tool that enables humanitarian data analysts to quickly identify areas with the highest need for aid using unsupervised machine learning. Works with <strong>provinces, districts, villages, refugee camps, neighborhoods, or any custom geographic units</strong>. It automatically clusters geographic units, ranks them by need level, and generates interactive choropleth maps with discrete color-coded need levels.
         </p>
-        <p className="text-gray-700 dark:text-gray-300">
+        <p className="text-base font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500">
           <strong>Fully generalized</strong>: Works with any CSV structure and any GeoJSON boundaries.
         </p>
 
@@ -43,7 +43,7 @@ export default function AidMind() {
           <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>pip install aidmind</code></pre>
           
           <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Option 2: From source</h3>
-          <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`git clone https://github.com/yourorg/aidmind.git
+          <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`git clone https://github.com/fiafghan/aidmind.git
 cd aidmind
 pip install -r requirements.txt
 pip install -e .`}</code></pre>
@@ -311,7 +311,7 @@ Camp Nyarugusu,0.30,0.25,0.20,0.35,0.40`}</code></pre>
           <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Support & Resources</h2>
           
           <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-            <li><strong>GitHub Repository</strong>: <a href="https://github.com/yourorg/aidmind" className="text-blue-600 dark:text-blue-400 hover:underline">https://github.com/yourorg/aidmind</a></li>
+            <li><strong>GitHub Repository</strong>: <a href="https://github.com/fiafghan/aidmind" className="text-blue-600 dark:text-blue-400 hover:underline">https://github.com/fiafghan/aidmind</a></li>
             <li><strong>Issues</strong>: Report bugs and feature requests on GitHub Issues</li>
             <li><strong>Documentation</strong>: Full usage examples available in USAGE_EXAMPLES.md</li>
             <li><strong>Contributing</strong>: See CONTRIBUTING.md for guidelines</li>
@@ -331,7 +331,7 @@ Camp Nyarugusu,0.30,0.25,0.20,0.35,0.40`}</code></pre>
           </p>
           <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`AidMind: Unsupervised Machine Learning for Humanitarian Needs Assessment
 Version 1.0.0
-https://github.com/yourorg/aidmind`}</code></pre>
+https://github.com/fiafghan/aidmind`}</code></pre>
         </section>
       </div>
     </DocsLayout>
