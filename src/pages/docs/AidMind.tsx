@@ -333,35 +333,35 @@ analyze_needs("provinces.csv", "Afghanistan", admin_level="ADM1")`}</code></pre>
               { num: '4', title: 'Visualize', desc: 'Generate Maps', emoji: '🗺️' },
               { num: '5', title: 'Export', desc: 'HTML + CSV', emoji: '💾' }
             ].map((step, i) => (
-              <div key={i} className={`p-4 rounded-lg text-center border ${isDark ? 'bg-gray-800 border-gray-600' : 'bg-gray-100 border-gray-200'} hover:scale-105 transition-transform`}>
-                <div className={`text-3xl mb-2 ${isDark ? 'text-purple-400' : 'text-purple-600'} font-bold`}>{step.num}</div>
+              <div key={i} className={`p-4 rounded-lg text-center border ${isDark ? 'bg-gray-800 border-gray-600' : ''} hover:scale-105 transition-transform`}>
+                <div className={`text-3xl mb-2 ${isDark ? 'text-purple-400' : ''} font-bold`}>{step.num}</div>
                 <div className="text-2xl mb-1">{step.emoji}</div>
-                <div className={`text-sm font-semibold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>{step.title}</div>
-                <div className={`text-xs ${isDark ? 'text-gray-200' : 'text-gray-600'}`}>{step.desc}</div>
+                <div className={`text-sm font-semibold mb-1 ${isDark ? 'text-white' : ''}`}>{step.title}</div>
+                <div className={`text-xs ${isDark ? 'text-gray-200' : ''}`}>{step.desc}</div>
               </div>
             ))}
           </div>
         </section>
 
         {/* Support & Resources */}
-        <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-gray-900 border-gray-700' : 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200'}`}>
-          <h2 className={`text-2xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>🔗 Resources & Support</h2>
+        <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-gray-900 border-gray-700' : ''}`}>
+          <h2 className={`text-2xl font-bold mb-4 ${isDark ? 'text-white' : ''}`}>🔗 Resources & Support</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <a href="https://github.com/fiafghan/aidmind" className={`p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-600 hover:border-purple-400' : 'bg-white border-gray-200 hover:border-purple-400'} transition-colors`}>
-              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>📁 GitHub Repository</div>
-              <div className={`text-sm ${isDark ? 'text-gray-100' : 'text-gray-600'}`}>Source code, issues, and contributions</div>
+              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : ''}`}>📁 GitHub Repository</div>
+              <div className={`text-sm ${isDark ? 'text-gray-100' : ''}`}>Source code, issues, and contributions</div>
             </a>
             <div className={`p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'}`}>
-              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>📖 Documentation</div>
-              <div className={`text-sm ${isDark ? 'text-gray-100' : 'text-gray-600'}`}>Full usage examples in USAGE_EXAMPLES.md</div>
+              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : ''}`}>📖 Documentation</div>
+              <div className={`text-sm ${isDark ? 'text-gray-100' : ''}`}>Full usage examples in USAGE_EXAMPLES.md</div>
             </div>
             <div className={`p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'}`}>
-              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>📝 License</div>
-              <div className={`text-sm ${isDark ? 'text-gray-100' : 'text-gray-600'}`}>MIT License - Free for commercial & non-commercial use</div>
+              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : ''}`}>📝 License</div>
+              <div className={`text-sm ${isDark ? 'text-gray-100' : ''}`}>MIT License - Free for commercial & non-commercial use</div>
             </div>
             <div className={`p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-200'}`}>
               <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>🤝 Contributing</div>
-              <div className={`text-sm ${isDark ? 'text-gray-100' : 'text-gray-600'}`}>See CONTRIBUTING.md for guidelines</div>
+              <div className={`text-sm ${isDark ? 'text-gray-100' : ''}`}>See CONTRIBUTING.md for guidelines</div>
             </div>
           </div>
         </section>
