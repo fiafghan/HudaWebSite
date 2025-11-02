@@ -134,14 +134,14 @@ export default function AidMind() {
     <DocsLayout title="AidMind: Unsupervised ML for Humanitarian Needs Assessment">
       <div className="max-w-none">
         {/* Hero Section */}
-        <div className={`p-8 rounded-xl mb-8 ${isDark ? 'bg-slate-900 border border-slate-700' : 'bg-gradient-to-r from-slate-100 via-pink-100 to-orange-100 border border-slate-300'}`}>
-          <p className={`text-xl font-bold mb-4 ${isDark ? 'text-white bg-gray-800 px-4 py-3 rounded-lg' : 'text-black'}`}>
+        <div className={`p-8 rounded-xl mb-8 ${isDark ? 'bg-slate-900 border border-slate-700' : ''}`}>
+          <p className={`text-xl font-bold mb-4 ${isDark ? 'text-white bg-gray-800 px-4 py-3 rounded-lg' : ''}`}>
             🤖 Unsupervised machine learning for humanitarian needs assessment at ANY geographic level
           </p>
-          <p className={`text-base mb-4 ${isDark ? 'text-gray-100 bg-gray-800 px-4 py-3 rounded-lg' : 'text-black'}`}>
+          <p className={`text-base mb-4 ${isDark ? 'text-gray-100 bg-gray-800 px-4 py-3 rounded-lg' : ''}`}>
             AidMind is a production-ready Python tool that enables humanitarian data analysts to quickly identify areas with the highest need for aid using unsupervised machine learning. Works with <strong>provinces, districts, villages, refugee camps, neighborhoods, or any custom geographic units</strong>.
           </p>
-          <p className={`text-base ${isDark ? 'text-gray-100 bg-gray-800 px-4 py-3 rounded-lg' : 'text-black'}`}>
+          <p className={`text-base ${isDark ? 'text-gray-100 bg-gray-800 px-4 py-3 rounded-lg' : ''}`}>
             <strong>✨ Fully generalized</strong>: Works with any CSV structure and any GeoJSON boundaries.
           </p>
         </div>
