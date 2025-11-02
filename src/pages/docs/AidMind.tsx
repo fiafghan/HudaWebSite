@@ -152,8 +152,7 @@ export default function AidMind() {
           <div className={`p-4 rounded-lg ${isDark ? 'bg-gray-900' : 'bg-gray-900'} mb-4`}>
             <p className="text-green-400 text-lg">$ <TypingText /></p>
           </div>
-          <p className={`text-sm ${isDark ? 'text-gray-200' : 'text-slate-500'}`}>
-            Or install from source: <code className={`px-3 py-2 rounded-md font-mono ${isDark ? 'bg-slate-800 border border-slate-600 text-green-400' : 'bg-black border border-gray-300 text-white'}`}>git clone https://github.com/fiafghan/aidmind.git</code>
+          <p className={`text-sm ${isDark ? 'text-gray-200' : ''}`}>
           </p>
         </section>
 
@@ -288,10 +287,10 @@ export default function AidMind() {
         <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-slate-900 border-slate-700' : 'bg-white border-gray-200'}`}>
           <h2 className={`text-2xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>🚀 Quick Start Examples</h2>
           
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Option 1: Pip install (recommended)</h3>
+          <h3 className="text-base font-semibold text-gray-900 mt-4 mb-2">Option 1: Pip install (recommended)</h3>
           <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>pip install aidmind</code></pre>
           
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Option 2: From source</h3>
+          <h3 className="text-base font-semibold text-gray-900 mt-4 mb-2">Option 2: From source</h3>
           <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`git clone https://github.com/fiafghan/aidmind.git
 cd aidmind
 pip install -r requirements.txt
