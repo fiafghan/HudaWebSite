@@ -73,7 +73,7 @@ function MapVisualization({ level, isDark }: { level: 'province' | 'village' | '
   }
   
   return (
-    <div className={`relative w-full h-64 rounded-lg ${isDark ? 'bg-slate-900' : 'bg-gray-100'} overflow-hidden`}>
+    <div className={`relative w-full h-64 rounded-lg ${isDark ? 'bg-slate-900' : ''} overflow-hidden`}>
       {getRegions().map((region, i) => (
         <div
           key={i}
@@ -109,7 +109,7 @@ function UseCaseCard({ icon: Icon, title, description, isDark }: { icon: any; ti
         <Icon className="w-6 h-6 text-white" />
       </div>
       <h3 className={`text-lg font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>{title}</h3>
-      <p className={`text-sm ${isDark ? 'text-gray-100' : 'text-gray-600'}`}>{description}</p>
+      <p className={`text-sm ${isDark ? 'text-gray-100' : ''}`}>{description}</p>
     </div>
   )
 }
@@ -167,7 +167,7 @@ export default function AidMind() {
               <MapPin className={`w-5 h-5 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
               <h3 className={`text-xl font-semibold ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>Province-Level Analysis</h3>
             </div>
-            <p className={`text-sm mb-4 ${isDark ? 'text-gray-200' : 'text-gray-600'}`}>
+            <p className={`text-sm mb-4 ${isDark ? 'text-gray-200' : ''}`}>
               Analyze need levels across provinces. Perfect for national-level planning and resource allocation.
             </p>
             <MapVisualization level="province" isDark={isDark} />
@@ -179,7 +179,7 @@ export default function AidMind() {
               <Home className={`w-5 h-5 ${isDark ? 'text-green-400' : 'text-green-600'}`} />
               <h3 className={`text-xl font-semibold ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>Village-Level Analysis</h3>
             </div>
-            <p className={`text-sm mb-4 ${isDark ? 'text-gray-200' : 'text-gray-600'}`}>
+            <p className={`text-sm mb-4 ${isDark ? 'text-gray-200' : ''}`}>
               Granular analysis at village level. Identify specific communities requiring targeted interventions.
             </p>
             <MapVisualization level="village" isDark={isDark} />
@@ -191,7 +191,7 @@ export default function AidMind() {
               <Users className={`w-5 h-5 ${isDark ? 'text-orange-400' : 'text-orange-600'}`} />
               <h3 className={`text-xl font-semibold ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>Refugee Camp Analysis</h3>
             </div>
-            <p className={`text-sm mb-4 ${isDark ? 'text-gray-200' : 'text-gray-600'}`}>
+            <p className={`text-sm mb-4 ${isDark ? 'text-gray-200' : ''}`}>
               Monitor need levels across refugee camps. Essential for humanitarian emergency response.
             </p>
             <MapVisualization level="camp" isDark={isDark} />
@@ -297,9 +297,9 @@ cd aidmind
 pip install -r requirements.txt
 pip install -e .`}</code></pre>
 
-          <div className={`mt-4 p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-600' : 'bg-gray-100 border-gray-200'}`}>
-            <h3 className={`text-sm font-semibold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>📚 Requirements</h3>
-            <p className={`text-sm font-mono ${isDark ? 'text-gray-100' : 'text-gray-600'}`}>
+          <div className={`mt-4 p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-600' : ''}`}>
+            <h3 className={`text-sm font-semibold mb-2 ${isDark ? 'text-white' : ''}`}>📚 Requirements</h3>
+            <p className={`text-sm font-mono ${isDark ? 'text-gray-100' : ''}`}>
               Python 3.8+ | pandas | numpy | scikit-learn | folium | requests | pycountry | branca | shapely
             </p>
           </div>
