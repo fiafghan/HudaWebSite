@@ -65,7 +65,12 @@ export default function Sidebar() {
             <NavItem to="/docs/document-processing" label={'Document Processing'} icon={<FileSearch className="w-3.5 h-3.5" />} isActive={is('/docs/document-processing')} />
             <NavItem to="/docs/humanitarian-metrics" label={'Humanitarian Metrics'} icon={<Activity className="w-3.5 h-3.5" />} isActive={is('/docs/humanitarian-metrics')} />
             <div className={isDark ? 'pt-2 pb-1 text-[10px] uppercase tracking-wider text-white/70' : 'pt-2 pb-1 text-[10px] uppercase tracking-wider text-slate-500'}>AI for Humanity</div>
-            <NavItem to="/docs/aidmind" label={'AidMind'} icon={<Brain className="w-3.5 h-3.5" />} isActive={is('/docs/aidmind')} />
+            <Link to="/docs/aidmind" className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-all duration-150 ${is('/docs/aidmind') ? (isDark ? 'bg-slate-600/60 text-white ring-1 ring-white/10 shadow-sm shadow-black/20' : 'bg-slate-900/5 text-slate-900 ring-1 ring-slate-900/10') : (isDark ? 'text-white/90 hover:text-white hover:bg-slate-600/40 ring-1 ring-transparent hover:ring-white/10 hover:shadow' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-900/5 ring-1 ring-transparent hover:ring-slate-900/10')}`}>
+              <span className="inline-grid h-6 w-6 place-items-center rounded-md bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 animate-pulse">
+                <Brain className="w-3.5 h-3.5 text-white" />
+              </span>
+              AidMind
+            </Link>
           </nav>
         </div>
       </div>

@@ -1,43 +1,292 @@
 import React from 'react'
 import DocsLayout from '../../layouts/DocsLayout'
+import { MapPin, Home, Users, TrendingUp, Package, FileText, Activity, Heart } from 'lucide-react'
+
+// Typing Animation Component
+function TypingText() {
+  const [displayText, setDisplayText] = React.useState('')
+  const fullText = 'pip install aidmind'
+  
+  React.useEffect(() => {
+    let currentIndex = 0
+    let isDeleting = false
+    
+    const typeChar = () => {
+      if (!isDeleting) {
+        if (currentIndex < fullText.length) {
+          setDisplayText(fullText.substring(0, currentIndex + 1))
+          currentIndex++
+        } else {
+          setTimeout(() => { isDeleting = true }, 3000)
+        }
+      } else {
+        if (currentIndex > 0) {
+          setDisplayText(fullText.substring(0, currentIndex - 1))
+          currentIndex--
+        } else {
+          isDeleting = false
+        }
+      }
+    }
+    
+    const interval = setInterval(typeChar, isDeleting ? 50 : 100)
+    return () => clearInterval(interval)
+  }, [])
+  
+  return <span className="font-mono">{displayText}<span className="animate-pulse">|</span></span>
+}
+
+// Animated Map Visualization Component
+type NeedLevel = 'high' | 'medium' | 'low' | 'lowest'
+type Region = { name: string; need: NeedLevel; x: number; y: number; w: number; h: number }
+function MapVisualization({ level, isDark }: { level: 'province' | 'village' | 'camp'; isDark: boolean }) {
+  const colors: Record<NeedLevel, string> = {
+    high: isDark ? 'bg-red-500' : 'bg-red-600',
+    medium: isDark ? 'bg-orange-400' : 'bg-orange-500',
+    low: isDark ? 'bg-yellow-300' : 'bg-yellow-400',
+    lowest: isDark ? 'bg-green-400' : 'bg-green-500'
+  }
+  
+  const getRegions = (): Region[] => {
+    if (level === 'province') {
+      return [
+        { name: 'Kabul', need: 'lowest', x: 60, y: 40, w: 30, h: 25 },
+        { name: 'Kandahar', need: 'high', x: 40, y: 60, w: 35, h: 30 },
+        { name: 'Herat', need: 'medium', x: 10, y: 35, w: 40, h: 35 },
+        { name: 'Balkh', need: 'low', x: 55, y: 10, w: 35, h: 25 }
+      ]
+    } else if (level === 'village') {
+      return [
+        { name: 'Village A', need: 'high', x: 15, y: 20, w: 15, h: 15 },
+        { name: 'Village B', need: 'medium', x: 40, y: 25, w: 18, h: 18 },
+        { name: 'Village C', need: 'lowest', x: 70, y: 30, w: 12, h: 12 },
+        { name: 'Village D', need: 'low', x: 25, y: 60, w: 20, h: 20 },
+        { name: 'Village E', need: 'high', x: 60, y: 65, w: 15, h: 15 }
+      ]
+    } else {
+      return [
+        { name: 'Camp 1', need: 'high', x: 30, y: 40, w: 25, h: 20 },
+        { name: 'Camp 2', need: 'medium', x: 65, y: 35, w: 20, h: 22 },
+        { name: 'Camp 3', need: 'lowest', x: 45, y: 70, w: 18, h: 18 }
+      ]
+    }
+  }
+  
+  return (
+    <div className={`relative w-full h-64 rounded-lg ${isDark ? 'bg-gray-800' : 'bg-gray-100'} overflow-hidden`}>
+      {getRegions().map((region, i) => (
+        <div
+          key={i}
+          className={`absolute rounded-md ${colors[region.need]} opacity-70 hover:opacity-100 transition-all duration-300 animate-pulse cursor-pointer group`}
+          style={{
+            left: `${region.x}%`,
+            top: `${region.y}%`,
+            width: `${region.w}%`,
+            height: `${region.h}%`,
+            animationDelay: `${i * 200}ms`
+          }}
+        >
+          <div className="opacity-0 group-hover:opacity-100 absolute inset-0 flex items-center justify-center text-xs font-bold text-white bg-black/50 rounded-md transition-opacity">
+            {region.name}
+          </div>
+        </div>
+      ))}
+      <div className={`absolute bottom-2 right-2 ${isDark ? 'bg-gray-900/80' : 'bg-white/80'} p-2 rounded text-xs space-y-1`}>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 bg-red-600 rounded"></div><span className={isDark ? 'text-gray-200' : 'text-gray-800'}>High</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 bg-orange-500 rounded"></div><span className={isDark ? 'text-gray-200' : 'text-gray-800'}>Medium</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 bg-yellow-400 rounded"></div><span className={isDark ? 'text-gray-200' : 'text-gray-800'}>Low</span></div>
+        <div className="flex items-center gap-1"><div className="w-3 h-3 bg-green-500 rounded"></div><span className={isDark ? 'text-gray-200' : 'text-gray-800'}>Lowest</span></div>
+      </div>
+    </div>
+  )
+}
+
+// Visual Use Case Card
+function UseCaseCard({ icon: Icon, title, description, isDark }: { icon: any; title: string; description: string; isDark: boolean }) {
+  return (
+    <div className={`p-6 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} hover:scale-105 transition-transform duration-300`}>
+      <div className={`inline-flex p-3 rounded-full ${isDark ? 'bg-gradient-to-br from-purple-600 to-pink-600' : 'bg-gradient-to-br from-purple-500 to-pink-500'} mb-4 animate-bounce`}>
+        <Icon className="w-6 h-6 text-white" />
+      </div>
+      <h3 className={`text-lg font-semibold mb-2 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>{title}</h3>
+      <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>{description}</p>
+    </div>
+  )
+}
 
 export default function AidMind() {
+  const [theme, setTheme] = React.useState<'light' | 'dark'>('light')
+  
+  React.useEffect(() => {
+    const checkTheme = () => {
+      const isDark = document.documentElement.classList.contains('dark')
+      setTheme(isDark ? 'dark' : 'light')
+    }
+    checkTheme()
+    const observer = new MutationObserver(checkTheme)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => observer.disconnect()
+  }, [])
+  
+  const isDark = theme === 'dark'
+  
   return (
     <DocsLayout title="AidMind: Unsupervised ML for Humanitarian Needs Assessment">
-      <div className="prose prose-slate max-w-none dark:prose-invert">
-        {/* Header */}
-        <p className="text-lg text-gray-700 dark:text-gray-500">
-          <strong>Unsupervised machine learning for humanitarian needs assessment at ANY geographic level</strong>
-        </p>
-        <p className="text-gray-700 dark:text-gray-500">
-          AidMind is a production-ready Python tool that enables humanitarian data analysts to quickly identify areas with the highest need for aid using unsupervised machine learning. Works with <strong>provinces, districts, villages, refugee camps, neighborhoods, or any custom geographic units</strong>. It automatically clusters geographic units, ranks them by need level, and generates interactive choropleth maps with discrete color-coded need levels.
-        </p>
-        <p className="text-gray-700 dark:text-gray-500">
-          <strong>Fully generalized</strong>: Works with any CSV structure and any GeoJSON boundaries.
-        </p>
+      <div className="max-w-none">
+        {/* Hero Section */}
+        <div className={`p-8 rounded-xl mb-8 ${isDark ? 'bg-gradient-to-r from-purple-900/50 via-pink-900/50 to-orange-900/50 border border-gray-700' : 'bg-gradient-to-r from-purple-100 via-pink-100 to-orange-100 border border-purple-200'}`}>
+          <p className={`text-xl font-bold mb-4 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>
+            🤖 Unsupervised machine learning for humanitarian needs assessment at ANY geographic level
+          </p>
+          <p className={`text-base mb-4 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            AidMind is a production-ready Python tool that enables humanitarian data analysts to quickly identify areas with the highest need for aid using unsupervised machine learning. Works with <strong>provinces, districts, villages, refugee camps, neighborhoods, or any custom geographic units</strong>.
+          </p>
+          <p className={`text-base ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            <strong>✨ Fully generalized</strong>: Works with any CSV structure and any GeoJSON boundaries.
+          </p>
+        </div>
+
+        {/* Installation with Typing Animation */}
+        <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+          <h2 className={`text-2xl font-bold mb-4 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>📦 Installation</h2>
+          <div className={`p-4 rounded-lg ${isDark ? 'bg-gray-900' : 'bg-gray-900'} mb-4`}>
+            <p className="text-green-400 text-lg">$ <TypingText /></p>
+          </div>
+          <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+            Or install from source: <code className={`px-2 py-1 rounded ${isDark ? 'bg-gray-700' : 'bg-gray-200'}`}>git clone https://github.com/fiafghan/aidmind.git</code>
+          </p>
+        </section>
+
+        {/* Map Examples with Animations */}
+        <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+          <h2 className={`text-2xl font-bold mb-6 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>🗺️ Visual Examples: Multi-Level Analysis</h2>
+          
+          {/* Province Level */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-3">
+              <MapPin className={`w-5 h-5 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
+              <h3 className={`text-xl font-semibold ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>Province-Level Analysis</h3>
+            </div>
+            <p className={`text-sm mb-4 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+              Analyze need levels across provinces. Perfect for national-level planning and resource allocation.
+            </p>
+            <MapVisualization level="province" isDark={isDark} />
+          </div>
+
+          {/* Village Level */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-3">
+              <Home className={`w-5 h-5 ${isDark ? 'text-green-400' : 'text-green-600'}`} />
+              <h3 className={`text-xl font-semibold ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>Village-Level Analysis</h3>
+            </div>
+            <p className={`text-sm mb-4 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+              Granular analysis at village level. Identify specific communities requiring targeted interventions.
+            </p>
+            <MapVisualization level="village" isDark={isDark} />
+          </div>
+
+          {/* Refugee Camp Level */}
+          <div className="mb-4">
+            <div className="flex items-center gap-2 mb-3">
+              <Users className={`w-5 h-5 ${isDark ? 'text-orange-400' : 'text-orange-600'}`} />
+              <h3 className={`text-xl font-semibold ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>Refugee Camp Analysis</h3>
+            </div>
+            <p className={`text-sm mb-4 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+              Monitor need levels across refugee camps. Essential for humanitarian emergency response.
+            </p>
+            <MapVisualization level="camp" isDark={isDark} />
+          </div>
+        </section>
+
+        {/* Use Cases with Visual Icons */}
+        <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+          <h2 className={`text-2xl font-bold mb-6 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>💡 Use Cases for Humanitarian Organizations</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <UseCaseCard
+              icon={TrendingUp}
+              title="Rapid Assessment"
+              description="Quickly identify priority areas needing immediate humanitarian intervention"
+              isDark={isDark}
+            />
+            <UseCaseCard
+              icon={Package}
+              title="Resource Allocation"
+              description="Visualize where aid resources are most needed for optimal distribution"
+              isDark={isDark}
+            />
+            <UseCaseCard
+              icon={Activity}
+              title="Monitoring & Evaluation"
+              description="Track changes in need levels over time to measure impact"
+              isDark={isDark}
+            />
+            <UseCaseCard
+              icon={FileText}
+              title="Donor Reporting"
+              description="Generate clear maps and data exports for transparent reporting"
+              isDark={isDark}
+            />
+          </div>
+        </section>
 
         {/* Features Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Features</h2>
-          <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6 space-y-2">
-            <li><strong>Works at ANY geographic level</strong>: Provinces, districts, villages, refugee camps, neighborhoods, or any custom zones</li>
-            <li><strong>Completely generalized</strong>: Works with ANY CSV structure and ANY column names</li>
-            <li><strong>Easy to use</strong>: Single function call with dataset path</li>
-            <li><strong>Flexible inputs</strong>: Works with any numeric indicators (any column names accepted)</li>
-            <li><strong>Custom boundaries</strong>: Use your own GeoJSON for villages or custom units</li>
-            <li><strong>Automatic preprocessing</strong>: Handles missing values, duplicates, and name variations</li>
-            <li><strong>Intelligent clustering</strong>: Uses KMeans to identify need patterns across indicators</li>
-            <li><strong>Geographic visualization</strong>: Generates interactive HTML maps with 4 discrete need levels (high, medium, low, lowest)</li>
-            <li><strong>Online or offline</strong>: Use GeoBoundaries or custom GeoJSON files</li>
-            <li><strong>International ready</strong>: Works with any country, any admin level (ADM1, ADM2, ADM3, custom)</li>
-            <li><strong>CSV export</strong>: Outputs structured data with need scores, ranks, and levels</li>
-            <li><strong>Professional logging</strong>: Transparent processing with diagnostic information</li>
+        <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+          <h2 className={`text-2xl font-bold mb-4 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>✨ Key Features</h2>
+          <ul className={`text-sm space-y-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Works at ANY geographic level</strong>: Provinces, districts, villages, refugee camps, neighborhoods, or any custom zones</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Completely generalized</strong>: Works with ANY CSV structure and ANY column names</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Easy to use</strong>: Single function call with dataset path</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Flexible inputs</strong>: Works with any numeric indicators (any column names accepted)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Custom boundaries</strong>: Use your own GeoJSON for villages or custom units</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Automatic preprocessing</strong>: Handles missing values, duplicates, and name variations</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Intelligent clustering</strong>: Uses KMeans to identify need patterns across indicators</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Geographic visualization</strong>: Generates interactive HTML maps with 4 discrete need levels</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Online or offline</strong>: Use GeoBoundaries or custom GeoJSON files</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>International ready</strong>: Works with any country, any admin level (ADM1, ADM2, ADM3, custom)</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>CSV export</strong>: Outputs structured data with need scores, ranks, and levels</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-green-500 font-bold">✓</span>
+              <span><strong>Professional logging</strong>: Transparent processing with diagnostic information</span>
+            </li>
           </ul>
         </section>
 
-        {/* Installation Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Installation</h2>
+        {/* Quick Start Examples */}
+        <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+          <h2 className={`text-2xl font-bold mb-4 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>🚀 Quick Start Examples</h2>
           
           <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Option 1: Pip install (recommended)</h3>
           <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>pip install aidmind</code></pre>
@@ -48,291 +297,83 @@ cd aidmind
 pip install -r requirements.txt
 pip install -e .`}</code></pre>
 
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Requirements</h3>
-          <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-            <li>Python 3.8+</li>
-            <li>pandas &gt;= 2.0</li>
-            <li>numpy &gt;= 1.24</li>
-            <li>scikit-learn &gt;= 1.3</li>
-            <li>folium &gt;= 0.15</li>
-            <li>requests &gt;= 2.31</li>
-            <li>pycountry &gt;= 22.3.5</li>
-            <li>branca &gt;= 0.7</li>
-            <li>shapely &gt;= 2.0</li>
-          </ul>
-        </section>
-
-        {/* Quick Start Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Start</h2>
+          <div className={`mt-4 p-4 rounded-lg ${isDark ? 'bg-gray-900/50' : 'bg-gray-100'}`}>
+            <h3 className={`text-sm font-semibold mb-2 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>📚 Requirements</h3>
+            <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+              Python 3.8+ | pandas | numpy | scikit-learn | folium | requests | pycountry | branca | shapely
+            </p>
+          </div>
           
-          <div className="space-y-6">
+          <div className="mt-6 space-y-4">
+            <h3 className={`text-lg font-semibold ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>Code Examples</h3>
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">Province-level (with GeoBoundaries)</h3>
-              <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`from aidmind import analyze_needs
-
-# Analyze provinces
-output = analyze_needs("provinces.csv", "Afghanistan", admin_level="ADM1")
-print(f"Map saved to: {output}")`}</code></pre>
+              <p className={`text-sm mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}><strong>Province Analysis:</strong></p>
+              <pre className={`rounded-md p-3 overflow-auto text-sm ${isDark ? 'bg-gray-900' : 'bg-gray-900'}`}><code className="text-gray-100">{`from aidmind import analyze_needs
+analyze_needs("provinces.csv", "Afghanistan", admin_level="ADM1")`}</code></pre>
             </div>
-
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">District-level (with GeoBoundaries)</h3>
-              <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`# Analyze districts
-output = analyze_needs(
-    "districts.csv",
-    "Afghanistan",
-    admin_level="ADM2",
-    admin_col="district"
-)`}</code></pre>
+              <p className={`text-sm mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}><strong>Village Analysis:</strong></p>
+              <pre className={`rounded-md p-3 overflow-auto text-sm ${isDark ? 'bg-gray-900' : 'bg-gray-900'}`}><code className="text-gray-100">{`analyze_needs("villages.csv", local_geojson="villages.geojson")`}</code></pre>
             </div>
-
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">Village-level (with custom boundaries)</h3>
-              <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`# Analyze villages using your own GeoJSON
-output = analyze_needs(
-    "villages.csv",
-    local_geojson="village_boundaries.geojson",
-    admin_col="village_name"
-)`}</code></pre>
-            </div>
-
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">Any custom geographic unit</h3>
-              <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`# Works with refugee camps, neighborhoods, health zones, etc.
-output = analyze_needs(
-    "refugee_camps.csv",
-    local_geojson="camp_boundaries.geojson",
-    admin_col="camp_name",
-    fixed_thresholds=(0.25, 0.50, 0.75)  # Optional: fixed thresholds
-)`}</code></pre>
-            </div>
-
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">Command line</h3>
-              <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`# Province-level
-python -m aidmind provinces.csv "Afghanistan" --admin-level ADM1
-
-# District-level
-python -m aidmind districts.csv "Kenya" --admin-level ADM2 --admin-col district
-
-# Village-level with custom boundaries
-python -m aidmind villages.csv --geojson villages.geojson --admin-col village_name`}</code></pre>
+              <p className={`text-sm mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}><strong>Refugee Camps:</strong></p>
+              <pre className={`rounded-md p-3 overflow-auto text-sm ${isDark ? 'bg-gray-900' : 'bg-gray-900'}`}><code className="text-gray-100">{`analyze_needs("camps.csv", local_geojson="camps.geojson", admin_col="camp_name")`}</code></pre>
             </div>
           </div>
         </section>
 
-        {/* Data Requirements Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Data Requirements</h2>
-          
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Required</h3>
-          <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-            <li><strong>One geographic unit column</strong>: Any column with location names (province, district, village, camp, zone, etc.)</li>
-            <li><strong>At least one numeric indicator</strong>: Any metric columns with numeric values</li>
-          </ul>
-
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Supported formats</h3>
-          <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-            <li><strong>CSV files</strong> with UTF-8 encoding</li>
-            <li><strong>ANY column names</strong>: Tool auto-detects geographic column and uses all numeric columns</li>
-            <li><strong>GeoJSON boundaries</strong>: Either from GeoBoundaries or your own custom file</li>
-          </ul>
-
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Example: Province-level</h3>
-          <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`province,health_index,education_index,income_index,food_security,water_access
-Kabul,0.75,0.80,0.70,0.85,0.78
-Kandahar,0.45,0.40,0.50,0.35,0.44
-Herat,0.60,0.65,0.55,0.60,0.63`}</code></pre>
-
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Example: Village-level</h3>
-          <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`village_name,health_access,school_access,water_quality,food_availability
-Qala-e-Fatullah,0.30,0.25,0.40,0.35
-Deh-e-Bagh,0.45,0.40,0.55,0.50
-Karez-e-Mir,0.25,0.20,0.35,0.30`}</code></pre>
-
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Example: Refugee camps</h3>
-          <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`camp_name,shelter,water,sanitation,food,health
-Camp Dadaab 1,0.40,0.35,0.30,0.45,0.50
-Camp Kakuma,0.55,0.50,0.45,0.60,0.65
-Camp Nyarugusu,0.30,0.25,0.20,0.35,0.40`}</code></pre>
+        {/* How It Works - Visual Process */}
+        <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+          <h2 className={`text-2xl font-bold mb-6 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>⚙️ How It Works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            {[
+              { num: '1', title: 'Load Data', desc: 'CSV + Indicators', emoji: '📊' },
+              { num: '2', title: 'Preprocess', desc: 'Clean & Normalize', emoji: '🧹' },
+              { num: '3', title: 'Cluster', desc: 'KMeans Analysis', emoji: '🎯' },
+              { num: '4', title: 'Visualize', desc: 'Generate Maps', emoji: '🗺️' },
+              { num: '5', title: 'Export', desc: 'HTML + CSV', emoji: '💾' }
+            ].map((step, i) => (
+              <div key={i} className={`p-4 rounded-lg text-center ${isDark ? 'bg-gray-900' : 'bg-gray-100'} hover:scale-105 transition-transform`}>
+                <div className={`text-3xl mb-2 ${isDark ? 'text-purple-400' : 'text-purple-600'} font-bold`}>{step.num}</div>
+                <div className="text-2xl mb-1">{step.emoji}</div>
+                <div className={`text-sm font-semibold mb-1 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>{step.title}</div>
+                <div className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{step.desc}</div>
+              </div>
+            ))}
+          </div>
         </section>
 
-        {/* How It Works Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">How It Works</h2>
-          
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">1. Preprocessing</h3>
-              <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-                <li>Auto-detects admin column or uses specified <code>admin_col</code></li>
-                <li>Aggregates duplicate admin records by averaging</li>
-                <li>Imputes missing numeric values with median</li>
-                <li>Standardizes all indicators (zero mean, unit variance)</li>
-              </ul>
+        {/* Support & Resources */}
+        <section className={`mt-8 rounded-lg border p-6 ${isDark ? 'bg-gradient-to-br from-purple-900/30 to-pink-900/30 border-gray-700' : 'bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200'}`}>
+          <h2 className={`text-2xl font-bold mb-4 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>🔗 Resources & Support</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <a href="https://github.com/fiafghan/aidmind" className={`p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-700 hover:border-purple-500' : 'bg-white border-gray-200 hover:border-purple-400'} transition-colors`}>
+              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>📁 GitHub Repository</div>
+              <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Source code, issues, and contributions</div>
+            </a>
+            <div className={`p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>📖 Documentation</div>
+              <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Full usage examples in USAGE_EXAMPLES.md</div>
             </div>
-
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">2. Need Assessment</h3>
-              <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-                <li>Computes composite need score (mean of standardized indicators)</li>
-                <li>Applies KMeans clustering (3-5 clusters depending on data size)</li>
-                <li>Ranks clusters by mean need score</li>
-              </ul>
+            <div className={`p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>📝 License</div>
+              <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>MIT License - Free for commercial & non-commercial use</div>
             </div>
-
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">3. Name Harmonization</h3>
-              <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-                <li>Normalizes admin names (lowercase, remove special characters)</li>
-                <li>Applies fuzzy matching to align with GeoBoundaries names</li>
-                <li>Logs match rate and coverage improvements</li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">4. Visualization</h3>
-              <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-                <li>Fetches admin boundaries from GeoBoundaries (or uses local file)</li>
-                <li>Assigns discrete color levels based on quartiles or fixed thresholds:
-                  <ul className="list-disc pl-6 mt-1">
-                    <li><strong>High</strong> (red-700): Top 25% need scores</li>
-                    <li><strong>Medium</strong> (red-400): 50th-75th percentile</li>
-                    <li><strong>Low</strong> (green-300): 25th-50th percentile</li>
-                    <li><strong>Lowest</strong> (green-600): Bottom 25%</li>
-                  </ul>
-                </li>
-                <li>Generates interactive Folium map with tooltips</li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">5. Output</h3>
-              <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-                <li>HTML map: <code>output/needs_map_&lt;ISO3&gt;.html</code></li>
-                <li>CSV scores: <code>output/needs_scores_&lt;ISO3&gt;.csv</code></li>
-              </ul>
+            <div className={`p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
+              <div className={`text-lg font-semibold mb-2 ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>🤝 Contributing</div>
+              <div className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>See CONTRIBUTING.md for guidelines</div>
             </div>
           </div>
         </section>
 
-        {/* Use Cases Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Use Cases</h2>
-          
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">Humanitarian Organizations</h3>
-          <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-            <li><strong>Rapid needs assessment</strong>: Identify priority areas for intervention</li>
-            <li><strong>Resource allocation</strong>: Visualize where aid is most needed</li>
-            <li><strong>Monitoring & evaluation</strong>: Track changes in need levels over time</li>
-            <li><strong>Reporting</strong>: Generate maps and data exports for donors</li>
-          </ul>
-
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Example Organizations</h3>
-          <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6">
-            <li>UN agencies (UNHCR, UNICEF, WFP)</li>
-            <li>International NGOs (MSF, Oxfam, Save the Children)</li>
-            <li>National disaster management agencies</li>
-            <li>Research institutions studying humanitarian crises</li>
-          </ul>
-        </section>
-
-        {/* API Reference Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">API Reference</h2>
-          
-          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">analyze_needs()</h3>
-          <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`def analyze_needs(
-    dataset_path: str,
-    country_name: Optional[str] = None,
-    output_html_path: Optional[str] = None,
-    *,
-    admin_level: Optional[str] = None,
-    admin_col: Optional[str] = None,
-    local_geojson: Optional[str] = None,
-    fixed_thresholds: Optional[Tuple[float, float, float]] = None,
-) -> str`}</code></pre>
-
-          <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Parameters:</h4>
-          <ul className="text-sm text-gray-700 dark:text-gray-300 list-disc pl-6 space-y-1">
-            <li><code>dataset_path</code> (str): Path to CSV file with geographic units and indicators</li>
-            <li><code>country_name</code> (str, optional): Country name (e.g., "Afghanistan", "Kenya"). Required only if using GeoBoundaries</li>
-            <li><code>output_html_path</code> (str, optional): Custom output path for HTML</li>
-            <li><code>admin_level</code> (str, optional): Admin level ("ADM1", "ADM2", "ADM3", or any custom)</li>
-            <li><code>admin_col</code> (str, optional): Name of geographic unit column (auto-detected if None)</li>
-            <li><code>local_geojson</code> (str, optional): Path to local GeoJSON boundaries</li>
-            <li><code>fixed_thresholds</code> (tuple, optional): (q25, q50, q75) for color levels</li>
-          </ul>
-
-          <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">Returns:</h4>
-          <p className="text-sm text-gray-700 dark:text-gray-300 pl-6"><code>str</code>: Path to generated HTML file</p>
-        </section>
-
-        {/* Best Practices Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Best Practices</h2>
-          
-          <div className="space-y-4">
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">Data Quality</h3>
-              <ol className="text-sm text-gray-700 dark:text-gray-300 list-decimal pl-6">
-                <li>Use official admin names from GeoBoundaries or national sources</li>
-                <li>Include multiple indicators (3-5+) for robust assessment</li>
-                <li>Check for outliers and data quality issues before analysis</li>
-                <li>Document data sources and collection methodology</li>
-              </ol>
-            </div>
-
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">Interpretation</h3>
-              <ol className="text-sm text-gray-700 dark:text-gray-300 list-decimal pl-6">
-                <li>Need scores are relative within the dataset (0-1 scale)</li>
-                <li>Clustering is unsupervised: No ground truth labels used</li>
-                <li>Combine with qualitative data for complete picture</li>
-                <li>Validate results with local experts and stakeholders</li>
-              </ol>
-            </div>
-
-            <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">Production Deployment</h3>
-              <ol className="text-sm text-gray-700 dark:text-gray-300 list-decimal pl-6">
-                <li>Use fixed thresholds for consistent cross-country comparison</li>
-                <li>Cache boundaries locally for offline or restricted environments</li>
-                <li>Version control datasets and track changes over time</li>
-                <li>Automate workflows with CI/CD pipelines</li>
-              </ol>
-            </div>
+        {/* Final CTA */}
+        <div className={`mt-8 p-8 rounded-xl text-center ${isDark ? 'bg-gradient-to-r from-purple-900 via-pink-900 to-orange-900' : 'bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600'}`}>
+          <h3 className="text-2xl font-bold text-white mb-3">Ready to Transform Humanitarian Data?</h3>
+          <p className="text-white/90 mb-6">Start analyzing needs at any geographic level with a single command</p>
+          <div className={`inline-block px-6 py-3 rounded-lg ${isDark ? 'bg-white/10 backdrop-blur' : 'bg-white/20 backdrop-blur'} text-white font-mono text-lg`}>
+            $ <TypingText />
           </div>
-        </section>
-
-        {/* Support Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Support & Resources</h2>
-          
-          <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
-            <li><strong>GitHub Repository</strong>: <a href="https://github.com/fiafghan/aidmind" className="text-blue-600 dark:text-blue-400 hover:underline">https://github.com/fiafghan/aidmind</a></li>
-            <li><strong>Issues</strong>: Report bugs and feature requests on GitHub Issues</li>
-            <li><strong>Documentation</strong>: Full usage examples available in USAGE_EXAMPLES.md</li>
-            <li><strong>Contributing</strong>: See CONTRIBUTING.md for guidelines</li>
-          </ul>
-        </section>
-
-        {/* License Section */}
-        <section className="mt-8 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">License & Citation</h2>
-          
-          <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-            <strong>License</strong>: MIT License - see LICENSE file for details.
-          </p>
-          
-          <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-            <strong>Citation</strong>: If you use AidMind in your research or reports, please cite:
-          </p>
-          <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`AidMind: Unsupervised Machine Learning for Humanitarian Needs Assessment
-Version 1.0.0
-https://github.com/fiafghan/aidmind`}</code></pre>
-        </section>
+        </div>
       </div>
     </DocsLayout>
   )
