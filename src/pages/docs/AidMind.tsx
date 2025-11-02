@@ -290,12 +290,7 @@ export default function AidMind() {
           <h3 className="text-base font-semibold text-gray-900 mt-4 mb-2">Option 1: Pip install (recommended)</h3>
           <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>pip install aidmind</code></pre>
           
-          <h3 className="text-base font-semibold text-gray-900 mt-4 mb-2">Option 2: From source</h3>
-          <pre className="rounded-md bg-gray-900 text-gray-100 p-3 overflow-auto"><code>{`git clone https://github.com/fiafghan/aidmind.git
-cd aidmind
-pip install -r requirements.txt
-pip install -e .`}</code></pre>
-
+       
           <div className={`mt-4 p-4 rounded-lg border ${isDark ? 'bg-gray-800 border-gray-600' : ''}`}>
             <h3 className={`text-sm font-semibold mb-2 ${isDark ? 'text-white' : ''}`}>📚 Requirements</h3>
             <p className={`text-sm font-mono ${isDark ? 'text-gray-100' : ''}`}>
